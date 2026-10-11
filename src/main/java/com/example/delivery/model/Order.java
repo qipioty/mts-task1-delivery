@@ -112,9 +112,8 @@ public class Order {
         return "Заказ #" + id +
                 " | клиент: " + client.getName() +
                 " | адрес: " + address +
-                " | позиций: " + items.size() +gu
+                " | позиций: " + items.size() +
                 " | доставка: " + deliveryMethod.getClass().getSimpleName() +
                 " | статус: " + status;
     }
 }
-
