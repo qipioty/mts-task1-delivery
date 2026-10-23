@@ -1,12 +1,18 @@
 package com.example.delivery.model;
 
 public class OrderItem {
-    private String productName;
-    private int quantity;
-    private double price;
+    private final String productName;
+    private final int quantity;
+    private final double price;
 
-    public OrderItem (String productName, int quantity, double price) {
-        this.productName = productName;
+    public OrderItem(String productName, int quantity, double price) {
+        this.productName = Validation.requireNotBlank(productName, "Название товара");
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Количество должно быть больше нуля");
+        }
+        if (price < 0 || Double.isNaN(price) || Double.isInfinite(price)) {
+            throw new IllegalArgumentException("Цена не может быть отрицательной");
+        }
         this.quantity = quantity;
         this.price = price;
     }
@@ -29,6 +35,7 @@ public class OrderItem {
 
     @Override
     public String toString() {
-        return productName + " x" + quantity + " = " + price + " руб., итого: " + getTotal() + " руб.";
+        return String.format("%s: %d x %.2f руб. = %.2f руб.",
+                productName, quantity, price, getTotal());
     }
 }
