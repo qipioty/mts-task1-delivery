@@ -1,16 +1,16 @@
 package com.example.delivery.model;
 
 public class Address {
-    private String city;
-    private String street;
-    private String house;
-    private String apartment;
+    private final String city;
+    private final String street;
+    private final String house;
+    private final String apartment;
 
-    public Address (String city, String street, String house, String apartment) {
-        this.city = city;
-        this.street = street;
-        this.house = house;
-        this.apartment = apartment;
+    public Address(String city, String street, String house, String apartment) {
+        this.city = Validation.requireNotBlank(city, "Город");
+        this.street = Validation.requireNotBlank(street, "Улица");
+        this.house = Validation.requireNotBlank(house, "Дом");
+        this.apartment = apartment == null ? "" : apartment.trim();
     }
 
     public String getCity() {
@@ -31,6 +31,10 @@ public class Address {
 
     @Override
     public String toString() {
-        return city + ", " + street + ", д. " + house + ", кв. " + apartment;
+        String result = city + ", " + street + ", д. " + house;
+        if (!apartment.isEmpty()) {
+            result += ", кв. " + apartment;
+        }
+        return result;
     }
 }
