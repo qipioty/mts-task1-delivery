@@ -11,21 +11,28 @@ import java.util.List;
 
 public class OrderService {
 
-    private List<Order> orders = new ArrayList<>();
-    private List<Courier> couriers = new ArrayList<>();
+    private final List<Order> orders = new ArrayList<>();
+    private final List<Courier> couriers = new ArrayList<>();
     private int nextOrderId = 1;
     private int nextCourierId = 1;
+    private int nextClientId = 1;
+
+    public Client createClient(String name, String phone, Address address) {
+        Client client = new Client(nextClientId, name, phone, address);
+        nextClientId++;
+        return client;
+    }
 
     public Order createOrder(Client client, Address address, DeliveryMethod deliveryMethod) {
-        int id = nextOrderId++;
-        Order order = new Order(id, client, address, deliveryMethod);
+        Order order = new Order(nextOrderId, client, address, deliveryMethod);
+        nextOrderId++;
         orders.add(order);
         return order;
     }
 
     public Courier addCourier(String name, String phone) {
-        int id = nextCourierId++;
-        Courier courier = new Courier(id, name, phone, true);
+        Courier courier = new Courier(nextCourierId, name, phone, true);
+        nextCourierId++;
         couriers.add(courier);
         return courier;
     }
@@ -55,5 +62,17 @@ public class OrderService {
             }
         }
         return free;
+    }
+
+    public Courier findFreeCourierById(int id) {
+        for (Courier courier : couriers) {
+            if (courier.getId() == id) {
+                if (!courier.isAvailable()) {
+                    throw new IllegalArgumentException("Курьер с id=" + id + " занят");
+                }
+                return courier;
+            }
+        }
+        throw new IllegalArgumentException("Курьер с id=" + id + " не найден");
     }
 }
