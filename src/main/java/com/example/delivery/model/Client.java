@@ -1,15 +1,18 @@
 package com.example.delivery.model;
 
 public class Client {
-    private int id;
-    private String name;
-    private String phone;
-    private Address address;
+    private final int id;
+    private final String name;
+    private final String phone;
+    private final Address address;
 
-    public Client (int id, String name, String phone, Address address) {
+    public Client(int id, String name, String phone, Address address) {
+        if (address == null) {
+            throw new IllegalArgumentException("Адрес клиента не указан");
+        }
         this.id = id;
-        this.name = name;
-        this.phone = phone;
+        this.name = Validation.requireNotBlank(name, "Имя клиента");
+        this.phone = Validation.requirePhone(phone);
         this.address = address;
     }
 
