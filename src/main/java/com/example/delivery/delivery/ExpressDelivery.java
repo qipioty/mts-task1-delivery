@@ -4,6 +4,11 @@ import com.example.delivery.model.Order;
 
 public class ExpressDelivery implements DeliveryMethod {
     @Override
+    public String getName() {
+        return "Экспресс доставка";
+    }
+
+    @Override
     public double calculateCost(Order order) {
         return 600.0;
     }

@@ -4,6 +4,11 @@ import com.example.delivery.model.Order;
 
 public class PickupDelivery implements DeliveryMethod {
     @Override
+    public String getName() {
+        return "Самовывоз";
+    }
+
+    @Override
     public double calculateCost(Order order) {
         return 0.0;
     }
