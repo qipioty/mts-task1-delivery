@@ -1,15 +1,15 @@
 package com.example.delivery.model;
 
 public class Courier {
-    private int id;
-    private String name;
-    private String phone;
+    private final int id;
+    private final String name;
+    private final String phone;
     private boolean available;
 
     public Courier(int id, String name, String phone, boolean available) {
         this.id = id;
-        this.name = name;
-        this.phone = phone;
+        this.name = Validation.requireNotBlank(name, "Имя курьера");
+        this.phone = Validation.requirePhone(phone);
         this.available = available;
     }
 
@@ -29,11 +29,12 @@ public class Courier {
         return available;
     }
 
-    public void setBusy() {
+    // Package-private: only Order may change courier availability
+    void setBusy() {
         this.available = false;
     }
 
-    public void setFree() {
+    void setFree() {
         this.available = true;
     }
 
