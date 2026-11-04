@@ -7,14 +7,12 @@ public class Main {
         ConsoleInput input = new ConsoleInput();
         WikipediaClient client = new WikipediaClient();
         ResponseParser parser = new ResponseParser();
+        ResultPrinter printer = new ResultPrinter();
 
         input.readQuery().ifPresent(query -> {
             try {
                 List<SearchResult> results = parser.parse(client.search(query));
-                for (SearchResult r : results) {
-                    System.out.println(r.getPageId() + " | " + r.getTitle() + " | " + r.getSnippet());
-                }
-                System.out.println("Найдено: " + results.size());
+                printer.print(results);
             } catch (WikipediaApiException e) {
                 System.out.println("Ошибка: " + e.getMessage());
             }
