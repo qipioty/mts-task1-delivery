@@ -22,4 +22,8 @@ public class SearchResult {
     public String getSnippet() {
         return snippet;
     }
+
+    public String getUrl() {
+        return "https://ru.wikipedia.org/w/index.php?curid=" + pageId;
+    }
 }
