@@ -26,4 +26,27 @@ public class ConsoleInput {
             return Optional.of(line);
         }
     }
+
+    public Optional<Integer> readChoice(int max) {
+        while (true) {
+            System.out.print("Введите номер статьи (1-" + max + "), 0 - новый поиск, exit - выход: ");
+            if (!scanner.hasNextLine()) {
+                return Optional.empty();
+            }
+            String line = scanner.nextLine().trim();
+            if (line.equalsIgnoreCase(EXIT_COMMAND)) {
+                return Optional.empty();
+            }
+            try {
+                int choice = Integer.parseInt(line);
+                if (choice >= 0 && choice <= max) {
+                    return Optional.of(choice);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Нужно ввести число.");
+                continue;
+            }
+            System.out.println("Такого номера нет в списке.");
+        }
+    }
 }
